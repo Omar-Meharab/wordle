@@ -1,13 +1,28 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeArea } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import { colors } from "./src/constants";
+import Keyboard from "./src/components/Keyboard";
 
 export default function App() {
   return (
-    <SafeArea style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
+
       <Text style={styles.title}>WORDLE</Text>
-    </SafeArea>
+
+      <View style={styles.map}>
+        <View style={styles.row}>
+          <View style={styles.cell} />
+          <View style={styles.cell} />
+          <View style={styles.cell} />
+          <View style={styles.cell} />
+          <View style={styles.cell} />
+          <View style={styles.cell} />
+        </View>
+      </View>
+
+      <Keyboard />
+    </SafeAreaView>
   );
 }
 
@@ -22,5 +37,20 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: "bold",
     letterSpacing: 7,
+  },
+  map: {
+    alignSelf: 'stretch',
+    height: 100,
+  },
+  row: {
+    alignSelf: 'stretch',
+    flexDirection: "row",
+  },
+  cell: {
+    borderWidth: 3,
+    borderColor: colors.darkgrey,
+    flex: 1,
+    aspectRatio: 1,
+    margin: 3,
   },
 });
