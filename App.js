@@ -1,26 +1,33 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, SafeAreaView } from "react-native";
+import { StyleSheet, Text, View, SafeAreaView, Platform, ScrollView } from "react-native";
 import { colors } from "./src/constants";
 import Keyboard from "./src/components/Keyboard";
 
+const NUMBER_OF_TRIES = 6;
+
 export default function App() {
+  const word = "hello";
+  const letters = word.split(""); //['h', 'e', 'l', 'l', 'o']
+
+  const rows = new Array(NUMBER_OF_TRIES).fill(
+    new Array(letters.length).fill("")
+  );
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
-
       <Text style={styles.title}>WORDLE</Text>
-
-      <View style={styles.map}>
-        <View style={styles.row}>
-          <View style={styles.cell} />
-          <View style={styles.cell} />
-          <View style={styles.cell} />
-          <View style={styles.cell} />
-          <View style={styles.cell} />
-          <View style={styles.cell} />
-        </View>
-      </View>
-
+      <ScrollView style={styles.map}>
+        {rows.map((row) => (
+          <View style={styles.row}>
+            {row.map((cell) => (
+              <View style={styles.cell}>
+                <Text style={styles.cellText}>{cell.toUpperCase()}</Text>
+              </View>
+            ))}
+          </View>
+        ))}
+      </ScrollView>
       <Keyboard />
     </SafeAreaView>
   );
@@ -29,6 +36,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: StatusBar.currentHeight,
+    paddingTop: Platform.OS === "android" ? 25 : 0,
     backgroundColor: colors.black,
     alignItems: "center",
   },
@@ -39,18 +48,28 @@ const styles = StyleSheet.create({
     letterSpacing: 7,
   },
   map: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
+    marginVertical: 20,
     height: 100,
   },
   row: {
-    alignSelf: 'stretch',
+    alignSelf: "stretch",
     flexDirection: "row",
+    justifyContent: "center",
   },
   cell: {
     borderWidth: 3,
     borderColor: colors.darkgrey,
     flex: 1,
+    maxWidth: 70,
     aspectRatio: 1,
     margin: 3,
+    justifyContent: "center",
+    alignItems: "center",
   },
+  cellText: {
+    color: colors.lightgrey,
+    fontWeight: "bold",
+    fontSize: 28,
+  }
 });
