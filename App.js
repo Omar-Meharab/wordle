@@ -58,6 +58,19 @@ export default function App() {
     return row === curRow && col === curCol;
   };
 
+  const getCellBGColor = (letter, row, col) => {
+    if (row>= curRow) {
+      return colors.black;
+    }
+    if (letter == letters[col]) {
+      return colors.primary
+    }
+    if (letters.includes(letters)) {
+      return colors.secondary;
+    }
+    return colors.darkgrey;
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" />
@@ -65,19 +78,20 @@ export default function App() {
       <ScrollView style={styles.map}>
         {rows.map((row, i) => (
           <View key={`row-${i}`} style={styles.row}>
-            {row.map((cell, j) => (
+            {row.map((letter, j) => (
               <View
-                key={`cell-${i}-${j}`}
+                key={`letter-${i}-${j}`}
                 style={[
                   styles.cell,
                   {
                     borderColor: isCellActive(i, j)
                       ? colors.lightgrey
                       : colors.darkgrey,
+                    backgroundColor: getCellBGColor(letter, i, j)
                   },
                 ]}
               >
-                <Text style={styles.cellText}>{cell.toUpperCase()}</Text>
+                <Text style={styles.cellText}>{letter.toUpperCase()}</Text>
               </View>
             ))}
           </View>
